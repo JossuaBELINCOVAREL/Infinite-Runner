@@ -46,6 +46,10 @@ player_speed = 0
 # Etat du jeu
 game_over = False
 
+# Ajout d'un score
+score = 0
+score_timer = 0
+
 # Fonction pour générer les obstacles
 def generate_obstacles():
     obstacle_x = 1000
@@ -53,12 +57,13 @@ def generate_obstacles():
     return pygame.Rect(obstacle_x, obstacle_y, obstacle_weight, obstacle_height)
 
 def reset_game():
-    global player, velocity_y, is_jumping, obstacles, game_over, obstacle_timer
+    global player, velocity_y, is_jumping, obstacles, game_over, obstacle_timer, score, score_timer
     player = pygame.Rect(player_x, player_y, player_width, player_height)
     velocity_y = 0
     is_jumping = False
     obstacles = []
     game_over = False
+    score = 0
     obstacle_timer = 0
 
 # Boucle de jeu
@@ -92,6 +97,11 @@ while running:
         screen.fill((0, 0, 0))  # Fond noir
         text = font.render("Game Over - Press R to Restart", True, (255, 255, 255))
         screen.blit(text, (250, 250))
+
+    # Affichage du score final
+        score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (450, 300))
+
         pygame.display.update()
         continue  # Empêcher le reste du code de s'exécuter
 
@@ -140,6 +150,12 @@ while running:
         if obstacle.x < 0:
             obstacles.remove(obstacle)
 
+    if not game_over:
+        score_timer += 1
+        if score_timer >= 30:
+            score += 1
+            score_timer = 0  #
+
     # Remplir l'écran avec la couleur de fond
     screen.fill(background_color)
 
@@ -148,7 +164,11 @@ while running:
 
     # Dessiner les obstacles
     for obstacle in obstacles:
-        pygame.draw.rect(screen, (0, 255, 0), obstacle) 
+        pygame.draw.rect(screen, (0, 255, 0), obstacle)
+
+    # Afficher le score en haut à gauche
+    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+    screen.blit(score_text, (10, 10))
 
     # Actualisation de l'affichage
     pygame.display.update()
