@@ -1,8 +1,12 @@
 import pygame
 import random
+import style
 
 # Initialisation de Pygame
 pygame.init()
+
+# Chargement de la police depuis style.py
+font = style.load_font(50)
 
 # Création de la fenêtre
 screen = pygame.display.set_mode((1000, 600))
@@ -156,19 +160,18 @@ while running:
             score += 1
             score_timer = 0  #
 
-    # Remplir l'écran avec la couleur de fond
-    screen.fill(background_color)
+    # Remplir l'écran
+    style.fill_background(screen)
 
     # Dessiner le personnage
-    pygame.draw.rect(screen, (255, 100, 0), player)
+    pygame.draw.rect(screen, style.PLAYER_COLOR, player)
 
     # Dessiner les obstacles
     for obstacle in obstacles:
-        pygame.draw.rect(screen, (0, 255, 0), obstacle)
+        pygame.draw.rect(screen, style.OBSTACLE_COLOR, obstacle)
 
     # Afficher le score en haut à gauche
-    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
-    screen.blit(score_text, (10, 10))
+    style.display_score(screen, score, font)
 
     # Actualisation de l'affichage
     pygame.display.update()
