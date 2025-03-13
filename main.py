@@ -11,6 +11,9 @@ pygame.display.set_caption("Infinite Runner")
 # Gestion du temps (limitation des FPS)
 clock = pygame.time.Clock()
 
+# Afficher la fenêtre restart
+font = pygame.font.Font(None, 50)
+
 # Couleur de fond
 background_color = (100, 100, 250)
 
@@ -40,12 +43,23 @@ obstacle_timer = 0
 # Paramètre de la vitesse horizontale
 player_speed = 0
 
+# Etat du jeu
+game_over = False
+
 # Fonction pour générer les obstacles
 def generate_obstacles():
     obstacle_x = 1000
     obstacle_y = 570
     return pygame.Rect(obstacle_x, obstacle_y, obstacle_weight, obstacle_height)
 
+def reset_game():
+    global player, velocity_y, is_jumping, obstacles, game_over, obstacle_timer
+    player = pygame.Rect(player_x, player_y, player_width, player_height)
+    velocity_y = 0
+    is_jumping = False
+    obstacles = []
+    game_over = False
+    obstacle_timer = 0
 
 # Boucle de jeu
 running = True
@@ -57,6 +71,29 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        if game_over and event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                reset_game()
+
+        # Gérer les déplacements gauche/droite
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player_speed = -2
+            elif event.key == pygame.K_RIGHT:
+                player_speed = 2
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                player_speed = 0
+
+    # Ecran Game Over
+    if game_over:
+        screen.fill((0, 0, 0))  # Fond noir
+        text = font.render("Game Over - Press R to Restart", True, (255, 255, 255))
+        screen.blit(text, (250, 250))
+        pygame.display.update()
+        continue  # Empêcher le reste du code de s'exécuter
 
     # Gérer le saut avec la barre d'espace
     keys = pygame.key.get_pressed()
@@ -73,6 +110,13 @@ while running:
         player.y = 550
         velocity_y = 0
         is_jumping = False
+
+    # Empêcher le joueur de sortir de l'écran
+    player.x += player_speed
+    if player.x < 0:
+        player.x = 0
+    elif player.x + player_width > 1000:
+        player.x = 1000 - player_width
 
     # Déplacement horizontal du personnage
     player.x += player_speed
@@ -91,7 +135,7 @@ while running:
         obstacle.x -= obstacles_speed
         if player.colliderect(obstacle):
             print("Game Over !")
-            running = False
+            game_over = True
         
         if obstacle.x < 0:
             obstacles.remove(obstacle)
