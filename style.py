@@ -9,7 +9,7 @@ def load_font(size):
     return pygame.font.Font(pygame.font.get_default_font(), size)
 
 # Définir des couleurs
-BACKGROUND_COLOR = (100, 100, 250)
+#BACKGROUND_COLOR = (100, 100, 250)
 PLAYER_COLOR = (255, 100, 0)
 OBSTACLE_COLOR = (0, 255, 0)
 TEXT_COLOR = (255, 255, 255)
@@ -28,6 +28,12 @@ def display_game_over(screen, font, score):
     score_text = font.render(f"Score: {score}", True, TEXT_COLOR)
     screen.blit(score_text, (450, 300))
 
-# Remplir l'écran avec un fond bleu dégradé
-def fill_background(screen):
-    screen.fill(BACKGROUND_COLOR)
+# Créer une fonction pour charger une image de fond
+def load_background_image(image_path):
+    image = pygame.image.load(image_path).convert()
+    return pygame.transform.scale(image, (1000, 600))
+
+# Remplir l'écran
+def fill_background(screen, background_image):
+    screen.blit(background_image, (0, 0))
+

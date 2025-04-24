@@ -18,8 +18,9 @@ clock = pygame.time.Clock()
 # Afficher la fenêtre restart
 font = pygame.font.Font(None, 50)
 
-# Couleur de fond
-background_color = (100, 100, 250)
+# image de fond
+background_image = style.load_background_image('assets/background.jpg')
+# background_color = (100, 100, 250)
 
 # Création du personnage
 player_width = 50
@@ -161,7 +162,7 @@ while running:
             score_timer = 0  #
 
     # Remplir l'écran
-    style.fill_background(screen)
+    style.fill_background(screen, background_image)
 
     # Dessiner le personnage
     pygame.draw.rect(screen, style.PLAYER_COLOR, player)
