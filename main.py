@@ -20,7 +20,6 @@ font = pygame.font.Font(None, 50)
 
 # image de fond
 background_image = style.load_background_image('assets/background.jpg')
-# background_color = (100, 100, 250)
 
 # Création du personnage
 player_width = 50
@@ -28,6 +27,10 @@ player_height = 50
 player_x = 50  # Position initiale à gauche
 player_y = 550  # Position verticale (au bas de la fenêtre)
 player = pygame.Rect(player_x, player_y, player_width, player_height)
+
+# Charger l'image du personnage
+player_image = pygame.image.load('assets/player.jpg').convert_alpha()
+player_image = pygame.transform.scale(player_image, (player_width, player_height))
 
 # Paramètre dec gravité
 gravity = 0.3
@@ -165,7 +168,8 @@ while running:
     style.fill_background(screen, background_image)
 
     # Dessiner le personnage
-    pygame.draw.rect(screen, style.PLAYER_COLOR, player)
+    screen.blit(player_image, (player.x, player.y))
+    # pygame.draw.rect(screen, style.PLAYER_COLOR, player)
 
     # Dessiner les obstacles
     for obstacle in obstacles:

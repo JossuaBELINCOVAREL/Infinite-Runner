@@ -9,7 +9,6 @@ def load_font(size):
     return pygame.font.Font(pygame.font.get_default_font(), size)
 
 # Définir des couleurs
-#BACKGROUND_COLOR = (100, 100, 250)
 PLAYER_COLOR = (255, 100, 0)
 OBSTACLE_COLOR = (0, 255, 0)
 TEXT_COLOR = (255, 255, 255)
