@@ -21,11 +21,14 @@ font = pygame.font.Font(None, 50)
 # image de fond
 background_image = style.load_background_image('assets/background.jpg')
 
+# Constante du sol
+ground_y = 570
+
 # Création du personnage
-player_width = 50
-player_height = 50
+player_width = 90
+player_height = 90
 player_x = 50  # Position initiale à gauche
-player_y = 550  # Position verticale (au bas de la fenêtre)
+player_y = 550 - player_height # Position verticale (au bas de la fenêtre)
 player = pygame.Rect(player_x, player_y, player_width, player_height)
 
 # Charger l'image du personnage
@@ -124,8 +127,8 @@ while running:
     player.y += velocity_y
 
     # Touche le sol
-    if player.y >= 550:
-        player.y = 550
+    if player.y >= 550 - player_height:
+        player.y = 550 - player_height
         velocity_y = 0
         is_jumping = False
 
