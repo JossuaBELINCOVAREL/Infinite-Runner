@@ -22,7 +22,7 @@ font = pygame.font.Font(None, 50)
 background_image = style.load_background_image('assets/background.jpg')
 
 # Constante du sol
-ground_y = 570
+# ground_y = 570
 
 # Création du personnage
 player_width = 90
